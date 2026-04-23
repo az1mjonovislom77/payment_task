@@ -25,3 +25,7 @@ def item_page(request, id):
 
 def success_page(request):
     return HttpResponse("Payment successful ✅")
+
+
+def home(request):
+    return HttpResponse("OK")
