@@ -37,3 +37,6 @@ def success_page(request):
 
 def cancel_page(request):
     return HttpResponse("Cancel")
+
+def home_page(request):
+    return HttpResponse("Welcome")
