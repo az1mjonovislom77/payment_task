@@ -4,7 +4,7 @@ from django.conf import settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
-def create_checkout_session_for_item(item):
+def create_checkout_session(item):
     return stripe.checkout.Session.create(
         payment_method_types=['card'],
         line_items=[{
@@ -24,7 +24,7 @@ def create_checkout_session_for_item(item):
     )
 
 
-def create_checkout_session_for_order(order):
+def create_order_session(order):
     line_items = []
 
     for item in order.items.all():

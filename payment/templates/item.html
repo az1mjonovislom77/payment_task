@@ -4,7 +4,8 @@
 <p>{{ item.description }}</p>
 <p>{{ item.price }}</p>
 
-<button id="buy-button">Buy</button>
+<button id="buy-button">Buy Item</button>
+<button id="buy-order-button">Buy Order</button>
 
 <script src="https://js.stripe.com/v3/"></script>
 
@@ -14,8 +15,16 @@
     document.getElementById("buy-button").onclick = function () {
         fetch("/buy/{{ item.id }}/")
             .then(res => res.json())
-            .then(data => {
-                return stripe.redirectToCheckout({sessionId: data.session_id});
+            .then(session => {
+                stripe.redirectToCheckout({sessionId: session.id});
+            });
+    };
+
+    document.getElementById("buy-order-button").onclick = function () {
+        fetch("/buy-order/1/")
+            .then(res => res.json())
+            .then(session => {
+                stripe.redirectToCheckout({sessionId: session.id});
             });
     };
 </script>

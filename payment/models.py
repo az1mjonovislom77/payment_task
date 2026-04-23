@@ -32,16 +32,12 @@ class Order(models.Model):
     discount = models.ForeignKey(Discount, null=True, blank=True, on_delete=models.SET_NULL)
     tax = models.ForeignKey(Tax, null=True, blank=True, on_delete=models.SET_NULL)
 
-    def get_total_amount(self):
+    def get_total(self):
         total = sum(item.price for item in self.items.all())
 
         if self.discount:
             total -= total * self.discount.percent // 100
-
         if self.tax:
             total += total * self.tax.percent // 100
 
         return total
-
-    def __str__(self):
-        return f"Order {self.id}"
