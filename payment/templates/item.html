@@ -4,27 +4,20 @@
 <p>{{ item.description }}</p>
 <p>{{ item.price }}</p>
 
-<button id="buy-button">Buy Item</button>
-<button id="buy-order-button">Buy Order</button>
+<button id="buy-button">Buy</button>
 
 <script src="https://js.stripe.com/v3/"></script>
 
 <script>
-    let stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
+    const stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
 
     document.getElementById("buy-button").onclick = function () {
         fetch("/buy/{{ item.id }}/")
             .then(res => res.json())
             .then(session => {
-                stripe.redirectToCheckout({sessionId: session.id});
-            });
-    };
-
-    document.getElementById("buy-order-button").onclick = function () {
-        fetch("/buy-order/1/")
-            .then(res => res.json())
-            .then(session => {
-                stripe.redirectToCheckout({sessionId: session.id});
+                stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
             });
     };
 </script>

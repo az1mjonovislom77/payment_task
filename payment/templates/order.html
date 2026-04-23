@@ -1,0 +1,31 @@
+<html>
+<body>
+<h1>Order {{ order.id }}</h1>
+
+<ul>
+    {% for item in order.items.all %}
+        <li>
+            {{ item.name }} — {{ item.price }} {{ item.currency }}
+        </li>
+    {% endfor %}
+</ul>
+
+<p><strong>Total: {{ order.get_total }}</strong></p>
+
+<button id="buy-order">Buy Order</button>
+
+<script src="https://js.stripe.com/v3/"></script>
+
+<script>
+    const stripe = Stripe("{{ STRIPE_PUBLISHABLE_KEY }}");
+
+    document.getElementById("buy-order").onclick = function () {
+        fetch("/buy-order/{{ order.id }}/")
+            .then(res => res.json())
+            .then(session => {
+                stripe.redirectToCheckout({sessionId: session.id});
+            });
+    };
+</script>
+</body>
+</html>
